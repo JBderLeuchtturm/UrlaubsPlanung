@@ -1157,9 +1157,9 @@ function lsSet(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ ret
 
 function applyLoaded(j){
   if(Array.isArray(j)){ trips = j; }
-  else { trips = j.trips||[]; home = j.home||null; if(j.theme) currentTheme = j.theme; }
+  else { trips = j.trips||[]; home = j.home||null; if(j.theme) theme = j.theme; }
 }
-function storePayload(){ return JSON.stringify({trips, home, theme: currentTheme}); }
+function storePayload(){ return JSON.stringify({trips, home, theme}); }
 
 async function loadTrips(){
   if(IS_CLAUDE){
