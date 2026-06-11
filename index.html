@@ -1042,13 +1042,14 @@ function wmoIcon(c){
 }
 async function fetchWeather(t){
   const u = `https://api.open-meteo.com/v1/forecast?latitude=${t.lat}&longitude=${t.lon}`
-    + `&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=7`;
+    + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7`;
   const res = await fetch(u);
   if(!res.ok) throw new Error('Wetter '+res.status);
   const j = await res.json();
   if(!j.daily || !j.daily.time) throw new Error('Wetterdaten unvollständig');
   return {ts: Date.now(), time: j.daily.time, code: j.daily.weather_code,
-          tmax: j.daily.temperature_2m_max, tmin: j.daily.temperature_2m_min};
+          tmax: j.daily.temperature_2m_max, tmin: j.daily.temperature_2m_min,
+          rain: j.daily.precipitation_probability_max};
 }
 const wxFresh = wx => wx && wx.ts && (Date.now()-wx.ts) < 6*3600*1000;
 
@@ -1204,7 +1205,7 @@ const setApiKey = k => lsSet('fernweh-apikey', k.trim());
 
 /* ---------- Claude-API ---------- */
 async function callClaude(messages, useSearch){
-  const body = { model:'claude-sonnet-4-20250514', max_tokens:1000, messages };
+  const body = { model:'claude-sonnet-4-6', max_tokens:1000, messages };
   if(useSearch) body.tools = [{type:'web_search_20250305', name:'web_search'}];
   const headers = {'Content-Type':'application/json'};
   if(!IS_CLAUDE){
@@ -1246,6 +1247,25 @@ Genau 5 highlights, 3 geheimtipps, 7 packliste-Eintraege.`;
   const j = parseJsonLoose(txt);
   if(!j.highlights) throw new Error('Unerwartetes Antwortformat');
   return j;
+}
+
+/* KI generiert Tagesprogramm */
+async function fetchItinerary(t){
+  const dauer = (t.start&&t.ende) ? Math.max(1, Math.round((new Date(t.ende)-new Date(t.start))/86400000)) : 5;
+  const tage = Math.min(dauer, 8);
+  const info = t.info||{};
+  const hlStr = (info.highlights||[]).map(h=>h.name).slice(0,4).join(', ');
+  const zeitraum = t.start ? `${fmtD(t.start)} bis ${fmtD(t.ende)}` : `${tage} Tage`;
+  const prompt = `Erstelle ein abwechslungsreiches Tagesprogramm für eine Reise nach ${t.ziel} (${zeitraum}, ${t.personen||2} Personen${hlStr?', bekannte Highlights: '+hlStr:''}).
+Antworte AUSSCHLIESSLICH mit einem JSON-Array, kein Markdown, keine Erklärung:
+[{"tag":"Tag 1 – Ankunft","text":"..."},{"tag":"Tag 2","text":"..."}]
+Genau ${tage} Einträge, jeder Eintrag 1–2 konkrete Aktivitäten in einem Satz.`;
+  const txt = await callClaude([{role:'user', content:prompt}], false);
+  const clean = txt.replace(/```json|```/g,'').trim();
+  const m = clean.match(/\[[\s\S]*\]/);
+  const arr = JSON.parse(m ? m[0] : clean);
+  if(!Array.isArray(arr) || !arr.length) throw new Error('Unerwartetes Format');
+  return arr;
 }
 
 /* Kurzer Websuche-Check zur aktuellen Lage (klein gehalten => zuverlässig) */
@@ -1817,11 +1837,13 @@ function renderWx(t){
   const chips = wx.time.map((iso,i)=>{
     const dd = new Date(iso+'T12:00');
     const inTrip = t.start && iso >= t.start && iso <= (t.ende||t.start);
+    const rainPct = wx.rain && wx.rain[i] != null ? Math.round(wx.rain[i]) : null;
     return `<div class="wx-day${inTrip?' on':''}">
       <div class="wx-wd">${dd.toLocaleDateString('de-DE',{weekday:'short'})}</div>
       <div class="wx-ic">${wmoIcon(wx.code[i])}</div>
       <div class="wx-t">${Math.round(wx.tmax[i])}°</div>
       <div class="wx-tn">${Math.round(wx.tmin[i])}°</div>
+      ${rainPct!=null && rainPct>10?`<div class="wx-tn" style="color:var(--ice)">💧${rainPct}%</div>`:''}
     </div>`;
   }).join('');
   return `<div class="wx-row">${chips}</div>
@@ -1989,6 +2011,9 @@ function renderDetailBody(t){
 
     <div class="section-h">Programm</div>
     <div id="progBox">${renderProg(t)}</div>
+    <div class="btn-row" style="margin-bottom:10px">
+      <button class="btn ghost sm-btn" id="aiItinBtn">✨ Tagesprogramm per KI erstellen</button>
+    </div>
     <div class="check-add">
       <input id="progInput" placeholder="z. B. Tag 2: Altstadt-Tour">
       <button class="icon-btn" id="progAdd">＋</button>
@@ -2013,6 +2038,14 @@ function renderDetailBody(t){
 
     <div class="section-h">Ausgaben</div>
     <div id="spendBox">${renderSpend(t)}</div>
+    <div class="pack-chips" style="margin-top:10px">
+      <button class="chip" data-cat="🍽️ Essen">🍽️</button>
+      <button class="chip" data-cat="🏨 Unterkunft">🏨</button>
+      <button class="chip" data-cat="✈️ Transport">✈️</button>
+      <button class="chip" data-cat="🎟️ Aktivität">🎟️</button>
+      <button class="chip" data-cat="🛒 Einkauf">🛒</button>
+      <button class="chip" data-cat="💊 Gesundheit">💊</button>
+    </div>
     <div class="check-add">
       <input id="spendName" placeholder="z. B. Flüge" style="flex:2">
       <input id="spendVal" type="number" inputmode="decimal" placeholder="€" style="flex:1">
@@ -2113,6 +2146,23 @@ function renderDetailBody(t){
     toast(added? `${added} Einträge aus Vorlage hinzugefügt` : 'Alles schon auf der Liste.');
   }));
 
+  const aiib = $('#aiItinBtn');
+  if(aiib) aiib.addEventListener('click', async ()=>{
+    aiib.disabled=true; aiib.innerHTML='<span class="spin"></span> Programm wird erstellt …';
+    try{
+      const items = await fetchItinerary(t);
+      t.programm = t.programm||[];
+      const have = new Set(t.programm.map(p=>p.text));
+      let added = 0;
+      items.forEach(d=>{
+        const txt = d.tag ? `${d.tag}: ${d.text}` : d.text;
+        if(!have.has(txt)){ t.programm.push({text:txt, done:false}); added++; }
+      });
+      await saveTrips(); renderDetailBody(t);
+      toast(added? `${added} Tage ins Programm eingetragen 🗓` : 'Programm schon vollständig.');
+    }catch(e){ handleAiError(e); renderDetailBody(t); }
+  });
+
   $('#progAdd').addEventListener('click', ()=> addProg(t));
   $('#progInput').addEventListener('keydown', e=>{ if(e.key==='Enter') addProg(t); });
   bindProg(t);
@@ -2125,6 +2175,13 @@ function renderDetailBody(t){
   $('#spendAdd').addEventListener('click', ()=> addSpend(t));
   $('#spendVal').addEventListener('keydown', e=>{ if(e.key==='Enter') addSpend(t); });
   bindSpend(t);
+  document.querySelectorAll('[data-cat]').forEach(btn=>btn.addEventListener('click', ()=>{
+    const inp = $('#spendName');
+    inp.value = btn.dataset.cat;
+    btn.style.background='var(--amber)'; btn.style.color='#1A1206';
+    setTimeout(()=>{ btn.style.background=''; btn.style.color=''; }, 700);
+    $('#spendVal').focus();
+  }));
 }
 
 function renderDiary(t){
@@ -2194,10 +2251,13 @@ async function shareCountdownCard(t, d){
 
 /* Programm */
 function renderProg(t){
+  const len = (t.programm||[]).length;
   return (t.programm||[]).map((c,i)=>
     `<div class="check-item ${c.done?'done':''}">
        <input type="checkbox" data-i="${i}" ${c.done?'checked':''}>
        <span>${esc(c.text)}</span>
+       <button class="x pu" data-i="${i}" ${i===0?'disabled':''} title="Nach oben">↑</button>
+       <button class="x pd" data-i="${i}" ${i===len-1?'disabled':''} title="Nach unten">↓</button>
        <button class="x" data-x="${i}">✕</button>
      </div>`).join('') || '<div class="f-hint">Noch leer – füge Punkte hinzu oder übernimm Highlights mit ＋.</div>';
 }
@@ -2206,7 +2266,16 @@ function bindProg(t){
     t.programm[cb.dataset.i].done = cb.checked; await saveTrips();
     $('#progBox').innerHTML = renderProg(t); bindProg(t);
   }));
+  $('#progBox').querySelectorAll('.pu').forEach(b=>b.addEventListener('click',async()=>{
+    const i=+b.dataset.i; [t.programm[i-1],t.programm[i]]=[t.programm[i],t.programm[i-1]];
+    await saveTrips(); $('#progBox').innerHTML=renderProg(t); bindProg(t);
+  }));
+  $('#progBox').querySelectorAll('.pd').forEach(b=>b.addEventListener('click',async()=>{
+    const i=+b.dataset.i; [t.programm[i+1],t.programm[i]]=[t.programm[i],t.programm[i+1]];
+    await saveTrips(); $('#progBox').innerHTML=renderProg(t); bindProg(t);
+  }));
   $('#progBox').querySelectorAll('.x').forEach(x=>x.addEventListener('click',async()=>{
+    if(x.classList.contains('pu')||x.classList.contains('pd')) return;
     t.programm.splice(x.dataset.x,1); await saveTrips();
     $('#progBox').innerHTML = renderProg(t); bindProg(t);
   }));
