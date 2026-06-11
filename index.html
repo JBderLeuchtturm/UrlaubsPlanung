@@ -304,6 +304,109 @@
   .flag-chip{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:7px 12px;font-size:13px}
   .flag-chip.dim{opacity:.65}
 
+
+  #persistBanner{display:none;position:fixed;left:10px;right:10px;top:calc(58px + env(safe-area-inset-top));z-index:70;
+    align-items:center;gap:10px;background:color-mix(in srgb, var(--red) 16%, var(--panel2));
+    border:1px solid color-mix(in srgb, var(--red) 45%, var(--line));border-radius:14px;padding:11px 12px;
+    font-size:12px;line-height:1.5}
+  #persistBanner button{border:1px solid var(--line);background:var(--panel);color:var(--text);
+    border-radius:9px;padding:7px 10px;font-size:12px;cursor:pointer;flex:0 0 auto}
+  #pins{z-index:3}
+  #globeCanvas{z-index:1}
+  #globeGlow{z-index:0}
+  .dy-date{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.5px;margin-bottom:3px}
+  .dy-text{font-size:14px;line-height:1.5;white-space:pre-wrap}
+  .check-item.diary{align-items:flex-start;padding:12px 4px}
+
+
+  /* ================= REDESIGN-SCHICHT (Polarsteps-inspiriert) ================= */
+  .trip-card{padding:0;overflow:hidden;border-radius:20px;
+    box-shadow:0 10px 28px rgba(0,0,0,.22);transition:transform .12s}
+  .trip-card:active{transform:scale(.985)}
+  .tc-cover{position:relative;height:64px}
+  .tc-cover .badge{position:absolute;left:12px;top:12px;background:color-mix(in srgb, var(--bg2) 65%, transparent);backdrop-filter:blur(3px)}
+  .tc-flag{position:absolute;right:14px;bottom:-12px;font-size:46px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.35))}
+  .tc-body{padding:14px 16px 15px}
+  .trip-card h3{font-size:19px}
+  .tc-stops{color:var(--amber);font-weight:500}
+  .tc-meta{margin-top:11px;gap:6px}
+  .m-chip{background:var(--panel2);border:1px solid var(--line);border-radius:99px;padding:5px 10px;
+    font-size:10.5px;white-space:nowrap}
+  .m-chip.hot{color:#1A1206;background:var(--amber);border-color:var(--amber);font-weight:600}
+
+  /* Detail-Hero */
+  .hero-cover{position:relative;height:130px;border-radius:20px;margin-bottom:30px;
+    box-shadow:0 12px 30px rgba(0,0,0,.25)}
+  .hero-cover .badge{position:absolute;left:14px;top:14px;background:color-mix(in srgb, var(--bg2) 65%, transparent);backdrop-filter:blur(3px)}
+  .hero-flag{position:absolute;right:18px;bottom:-22px;font-size:62px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.4))}
+  .hero-head h2{font-family:var(--display);font-weight:800;font-size:27px;line-height:1.15}
+  .hero-head .d-sub{font-family:var(--mono);font-size:10.5px;color:var(--muted2);margin-top:7px;line-height:1.7;letter-spacing:.4px}
+  .pill-row{display:flex;gap:8px;overflow-x:auto;margin:14px 0 6px;padding-bottom:4px}
+  .pill{flex:0 0 auto;background:var(--panel);border:1px solid var(--line);border-radius:99px;
+    padding:8px 13px;font-family:var(--mono);font-size:11px;color:var(--muted2)}
+
+  /* Routen-Timeline */
+  .tl{position:relative;margin:2px 0 8px}
+  .tl::before{content:'';position:absolute;left:14px;top:18px;bottom:18px;width:2px;
+    background:repeating-linear-gradient(to bottom, var(--line) 0 5px, transparent 5px 10px)}
+  .tl-item{display:flex;gap:13px;align-items:center;position:relative}
+  .tl-node{width:30px;height:30px;border-radius:50%;background:var(--bg2);border:2px solid var(--amber);
+    color:var(--amber);font-family:var(--mono);font-size:11px;font-weight:500;display:grid;place-items:center;
+    flex:0 0 auto;z-index:1}
+  .tl-card{flex:1;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel);
+    border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin:5px 0;font-size:14.5px;
+    box-shadow:0 4px 14px rgba(0,0,0,.14)}
+  .tl-tag{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);
+    border:1px solid var(--line);border-radius:99px;padding:3px 8px}
+  .tl-leg{display:block;margin-left:46px;padding:3px 0 5px;font-family:var(--mono);font-size:10.5px;
+    color:var(--ice);text-decoration:none}
+
+  /* Abschnitts-Header mit Akzent */
+  .section-h{margin:26px 0 12px}
+  .section-h::before{content:'';width:16px;height:2.5px;border-radius:2px;background:var(--amber);flex:0 0 auto}
+
+  /* Karten & Zellen */
+  .d-cell{border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+  .hl-card,.briefing,.notes-box{box-shadow:0 4px 14px rgba(0,0,0,.12)}
+  .link-btn{box-shadow:0 4px 12px rgba(0,0,0,.12)}
+
+  /* Buttons */
+  .btn{border-radius:16px;letter-spacing:.2px}
+  .btn.primary{background:linear-gradient(180deg, color-mix(in srgb, var(--amber) 88%, white), var(--amber));
+    box-shadow:0 8px 22px color-mix(in srgb, var(--amber) 35%, transparent)}
+
+  /* Filter als Segmented Control */
+  .filters{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:4px;gap:3px;margin-bottom:14px}
+  .filters .chip{border:0;border-radius:12px;padding:8px 12px;flex:1;text-align:center}
+  .filters .chip.on{box-shadow:0 3px 10px color-mix(in srgb, var(--amber) 40%, transparent)}
+
+  /* Schwebende Navigation */
+  nav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));padding:9px 14px;
+    background:color-mix(in srgb, var(--panel) 90%, transparent);border:1px solid var(--line);
+    border-radius:26px;backdrop-filter:blur(12px);box-shadow:0 12px 32px rgba(0,0,0,.35);
+    align-items:center;justify-content:space-between}
+  nav #navNew{transform:none;border-radius:16px;padding:12px 26px;box-shadow:0 6px 18px color-mix(in srgb, var(--amber) 40%, transparent)}
+
+  /* Boarding-Pass: Nächste Reise */
+  #nextTrip{border-radius:20px;bottom:calc(108px + env(safe-area-inset-bottom));padding:14px 16px;
+    box-shadow:0 14px 36px rgba(0,0,0,.35)}
+  .nt-div{align-self:stretch;border-left:2px dashed var(--line);margin:0 2px}
+
+  /* Globus-Statuszeile als Chip */
+  #globeStats{top:calc(58px + env(safe-area-inset-top))}
+  #globeStats:not(:empty){display:inline-block;left:50%;right:auto;transform:translateX(-50%);
+    background:color-mix(in srgb, var(--panel) 80%, transparent);border:1px solid var(--line);
+    border-radius:99px;padding:7px 15px;backdrop-filter:blur(4px)}
+  #diceBtn{top:calc(104px + env(safe-area-inset-top));box-shadow:0 8px 20px rgba(0,0,0,.3)}
+
+  /* Eingaben */
+  input,select,textarea{border-radius:14px}
+  input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px color-mix(in srgb, var(--amber) 22%, transparent)}
+
+  /* Sheets */
+  .sheet-head{border-bottom:0;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+  #toast{box-shadow:0 10px 26px rgba(0,0,0,.4)}
+
   @media (prefers-reduced-motion: reduce){
     .pin .p-dot::after{animation:none}
     .sheet{animation:none}
@@ -328,6 +431,7 @@
   <button id="diceBtn" title="Überrasch mich">🎲</button>
   <div id="nextTrip">
     <div class="nt-count"><span id="ntDays">–</span><small id="ntUnit">Tage</small></div>
+    <div class="nt-div"></div>
     <div class="nt-info"><b id="ntTitle"></b><span id="ntSub"></span></div>
   </div>
   <div id="globeHint">Finger: drehen · Kneifen: zoomen · Punkt antippen</div>
@@ -468,6 +572,11 @@
   <button id="navList"><span class="n-ic">🧳</span>Reisen</button>
 </nav>
 
+<div id="persistBanner">
+  <span>⚠️ Vorschau-Modus: Hier kann <b>nichts dauerhaft gespeichert</b> werden – Reisen gehen beim Schließen verloren. Nutze die installierte App oder sichere per Export.</span>
+  <button id="persistExport">Export</button>
+  <button id="persistClose">✕</button>
+</div>
 <div id="toast"></div>
 
 <script>
@@ -910,15 +1019,17 @@ function applyTheme(name){
   THEME_G.arc = T.globe.arc; THEME_G.home = T.globe.home;
   const g = $('#globeGlow');
   if(g) g.style.background = `radial-gradient(circle, ${T.globe.glow}0.22) 0%, ${T.globe.glow}0.07) 42%, transparent 68%)`;
-  if(typeof dotMat !== 'undefined' && dotMat){
-    dotMat.color.setHex(T.globe.dot);
-    occMat.color.setHex(T.globe.occ);
-    rimMat.color.setHex(T.globe.rim);
-    starMat.opacity = T.globe.star;
-    const real = !!T.real;
-    if(realGroup){ realGroup.visible = real; dotsObj.visible = !real; occObj.visible = !real; }
-    rebuildPins();
-  }
+  try{
+    if(typeof dotMat !== 'undefined' && dotMat){
+      dotMat.color.setHex(T.globe.dot);
+      occMat.color.setHex(T.globe.occ);
+      rimMat.color.setHex(T.globe.rim);
+      starMat.opacity = T.globe.star;
+      const real = !!T.real;
+      if(realGroup){ realGroup.visible = real; dotsObj.visible = !real; occObj.visible = !real; }
+    }
+  }catch(e){ console.error('Theme/Globus:', e); }
+  try{ rebuildPins(); }catch(e){ console.error('Pins:', e); }
 }
 
 
@@ -1069,6 +1180,25 @@ async function saveTrips(){
     if(!lsSet(SKEY, storePayload())) toast('Speichern fehlgeschlagen – Daten nur in dieser Sitzung.');
   }
 }
+/* ---------- Speicher-Selbstprüfung ---------- */
+let canPersist = true;
+async function persistCheck(){
+  if(window.storage){
+    try{ await window.storage.set('fernweh-ping', '1'); return true; }
+    catch(e){ return false; }
+  }
+  return lsSet('fernweh-ping', '1');
+}
+function downloadBlob(filename, blob){
+  try{
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename; document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+    return true;
+  }catch(e){ return false; }
+}
+
 const getApiKey = ()=> lsGet('fernweh-apikey') || '';
 const setApiKey = k => lsSet('fernweh-apikey', k.trim());
 
@@ -1400,6 +1530,12 @@ function flyTo(t){
   })();
 }
 
+const ST_COL = {idee:'var(--muted2)', geplant:'var(--ice)', gebucht:'var(--amber)', abgeschlossen:'var(--green)'};
+const coverStyle = (status, dots=.08) =>
+  `background-image:radial-gradient(rgba(255,255,255,${dots}) 1px, transparent 1.5px),`+
+  `linear-gradient(135deg, color-mix(in srgb, ${ST_COL[status]||'var(--amber)'} 30%, var(--panel)) 0%, var(--panel2) 100%);`+
+  `background-size:13px 13px, 100% 100%;`;
+
 /* ---------- Navigation ---------- */
 let currentView = 'globe', currentFilter = 'alle', editingId = null, detailId = null;
 
@@ -1463,17 +1599,20 @@ function cardHtml(t){
   const km = tripKm(t);
   const heim = (home && t.lat!=null) ? haversine(home, t) : 0;
   return `<div class="trip-card" data-id="${t.id}">
-    <div class="tc-top">
-      <div><h3>${esc(t.flag?t.flag+' ':'')}${esc(t.titel)}</h3>
-      <div class="tc-dest">${esc(t.display||t.ziel)}${(t.stops&&t.stops.length)?` <span style="color:var(--amber)">+${t.stops.length} ${t.stops.length===1?'Station':'Stationen'}</span>`:''}${t.country?' · '+esc(t.country):''}</div></div>
+    <div class="tc-cover" style="${coverStyle(t.status)}">
       <span class="badge ${t.status}">${STATUS_LABEL[t.status]}</span>
+      <span class="tc-flag">${esc(t.flag||'🌍')}</span>
     </div>
-    <div class="tc-meta">
-      ${t.start?`<span>📅 ${fmtDshort(t.start)} – ${fmtDshort(t.ende)}</span>`:''}
-      ${t.budget?`<span>💶 ${Number(t.budget).toLocaleString('de-DE')} €</span>`:''}
-      ${km>0?`<span>🧭 ${kmStr(km)}</span>`:''}
-      ${heim>0?`<span>🏠 ${kmStr(heim)}</span>`:''}
-      ${countdown?`<span style="color:var(--amber)">${countdown}</span>`:''}
+    <div class="tc-body">
+      <h3>${esc(t.titel)}</h3>
+      <div class="tc-dest">${esc(t.display||t.ziel)}${(t.stops&&t.stops.length)?` <span class="tc-stops">+${t.stops.length} ${t.stops.length===1?'Station':'Stationen'}</span>`:''}${t.country?' · '+esc(t.country):''}</div>
+      <div class="tc-meta">
+        ${t.start?`<span class="m-chip">📅 ${fmtDshort(t.start)} – ${fmtDshort(t.ende)}</span>`:''}
+        ${km>0?`<span class="m-chip">🧭 ${kmStr(km)}</span>`:''}
+        ${heim>0?`<span class="m-chip">🏠 ${kmStr(heim)}</span>`:''}
+        ${t.budget?`<span class="m-chip">💶 ${Number(t.budget).toLocaleString('de-DE')} €</span>`:''}
+        ${countdown?`<span class="m-chip hot">${countdown}</span>`:''}
+      </div>
     </div></div>`;
 }
 function renderList(){
@@ -1520,6 +1659,18 @@ function renderList(){
 }
 
 /* ---------- Meine Welt (Statistik) ---------- */
+function badges(visited, tage, km){
+  const fertig = trips.filter(t=>t.status==='abgeschlossen').length;
+  return [
+    {icon:'🎒', name:'Erste Reise',      ok:trips.length>=1,  hint:'Lege deine erste Reise an'},
+    {icon:'✈️', name:'Abgeflogen',       ok:fertig>=1,        hint:'Schließe eine Reise ab'},
+    {icon:'🌍', name:'Entdecker',        ok:visited.size>=3,  hint:'Bereise 3 Länder'},
+    {icon:'🧭', name:'Weltenbummler',    ok:visited.size>=10, hint:'Bereise 10 Länder'},
+    {icon:'🛣️', name:'10.000-km-Club',   ok:km>=10000,        hint:'Plane 10.000 Routen-Kilometer'},
+    {icon:'📅', name:'Vielreisender',    ok:tage>=30,         hint:'Sammle 30 Reisetage'},
+    {icon:'🗺️', name:'Routenplaner',     ok:trips.some(t=>t.stops&&t.stops.length>=2), hint:'Plane eine Route mit 3+ Stationen'}
+  ];
+}
 function openStats(){
   const fertig = trips.filter(t=>t.status==='abgeschlossen');
   const visited = new Map(); fertig.forEach(t=>{ if(t.country) visited.set(t.country, t.flag||'🌍'); });
@@ -1547,6 +1698,9 @@ function openStats(){
     ${geplant.size?`<div class="section-h">Geplant &amp; gebucht</div>
       <div class="flag-grid">${[...geplant].map(([land,fl])=>`<span class="flag-chip dim">${esc(fl)} ${esc(land)}</span>`).join('')}</div>`:''}
     ${!visited.size&&!geplant.size?'<div class="f-hint">Lege Reisen an und schließe sie ab – hier wächst deine Welt.</div>':''}
+    <div class="section-h">Abzeichen</div>
+    <div class="flag-grid">${badges(visited, tage, km).map(b=>
+      `<span class="flag-chip ${b.ok?'':'dim'}" title="${esc(b.hint)}">${b.ok?b.icon:'🔒'} ${esc(b.name)}</span>`).join('')}</div>
   `;
   $('#statsSheet').classList.add('open');
 }
@@ -1641,31 +1795,30 @@ const hasInfo = t => t.info && (Object.keys(t.info).some(k=>t.info[k] && (!Array
 function routeSectionHtml(t){
   const chain = routeChain(t);
   if(chain.length<2) return '';
-  let rows = '';
-  for(let i=0;i<chain.length;i++){
-    const c = chain[i];
-    const nextKm = i<chain.length-1 ? haversine(c, chain[i+1]) : null;
-    rows += `<div class="leg-row">
-      <span class="leg-n">${i+1}</span>
-      <span class="leg-name">${esc(c.flag?c.flag+' ':'')}${esc(c.name)}</span>
-      ${nextKm!=null?`<a class="leg-go" target="_blank" rel="noopener"
-        href="https://www.rome2rio.com/de/map/${encodeURIComponent(c.name)}/${encodeURIComponent(chain[i+1].name)}"
-        title="Verbindungen prüfen">↓ ${kmStr(nextKm)} 🚆</a>`:''}
+  let html = `<div class="section-h">Route · ${kmStr(tripKm(t))} gesamt</div><div class="tl">`;
+  chain.forEach((c,i)=>{
+    html += `<div class="tl-item">
+      <div class="tl-node">${i+1}</div>
+      <div class="tl-card"><b>${esc(c.flag?c.flag+' ':'')}${esc(c.name)}</b>
+        ${i===0?'<span class="tl-tag">Start</span>':''}${i===chain.length-1&&i>0?'<span class="tl-tag">Ziel</span>':''}</div>
     </div>`;
-  }
-  return `<div class="section-h">Route · ${kmStr(tripKm(t))} gesamt</div>${rows}
-    <div class="f-hint" style="margin-top:8px">🚆 antippen, um Zug-/Bus-/Flugverbindungen für die Etappe zu prüfen (Rome2Rio).</div>`;
+    if(i<chain.length-1){
+      const legKm = haversine(c, chain[i+1]);
+      html += `<a class="tl-leg" target="_blank" rel="noopener"
+        href="https://www.rome2rio.com/de/map/${encodeURIComponent(c.name)}/${encodeURIComponent(chain[i+1].name)}">${kmStr(legKm)} · Verbindungen prüfen 🚆</a>`;
+    }
+  });
+  return html + '</div>';
 }
-
 function renderWx(t){
   const wx = t.wx;
   if(!wx) return `<button class="btn ghost sm-btn" id="wxLoad">🌤 7-Tage-Vorhersage laden</button>
     <div class="f-hint" style="margin-top:6px">Echte Wetterdaten (Open-Meteo) für ${esc(t.display||t.ziel)} – kostenlos, ohne Anmeldung.</div>`;
   const chips = wx.time.map((iso,i)=>{
-    const d = new Date(iso+'T12:00');
+    const dd = new Date(iso+'T12:00');
     const inTrip = t.start && iso >= t.start && iso <= (t.ende||t.start);
     return `<div class="wx-day${inTrip?' on':''}">
-      <div class="wx-wd">${d.toLocaleDateString('de-DE',{weekday:'short'})}</div>
+      <div class="wx-wd">${dd.toLocaleDateString('de-DE',{weekday:'short'})}</div>
       <div class="wx-ic">${wmoIcon(wx.code[i])}</div>
       <div class="wx-t">${Math.round(wx.tmax[i])}°</div>
       <div class="wx-tn">${Math.round(wx.tmin[i])}°</div>
@@ -1736,6 +1889,7 @@ function nearbySights(t){
   res.sort((a,b)=>a[0]-b[0]);
   return res.slice(0,6);
 }
+
 function renderDetailBody(t){
   const d = t.start ? daysUntil(t.start) : null;
   const dauer = (t.start&&t.ende)? Math.max(1,Math.round((new Date(t.ende)-new Date(t.start))/86400000)) : null;
@@ -1747,13 +1901,26 @@ function renderDetailBody(t){
   const unterwegs = t.start && t.ende && daysUntil(t.start)<=0 && daysUntil(t.ende)>=0 && t.status!=='abgeschlossen';
   const sonne = t.lat!=null ? sunTimes(t.lat, t.lon, (t.start && d>=0) ? t.start : null) : null;
 
+  const chainLen = routeChain(t).length;
+  const pills = [
+    dauer ? `${dauer} ${dauer===1?'Nacht':'Nächte'}` : null,
+    tripKm(t)>0 ? '🧭 '+kmStr(tripKm(t)) : null,
+    chainLen>1 ? `${chainLen} Stationen` : null,
+    (home&&t.lat!=null) ? '🏠 '+kmStr(haversine(home,t)) : null,
+    unterwegs ? '✈ unterwegs' : (d!=null&&d>=0&&t.status!=='abgeschlossen') ? `✈ in ${d} Tagen` : null
+  ].filter(Boolean);
   $('#detailBody').innerHTML = `
-    <div class="d-hero">
-      <div class="d-flag">${esc(t.flag||'📍')}</div>
-      <h2>${esc(t.titel)}</h2>
-      <div class="d-sub">${esc(t.display||t.ziel)}${t.country?' · '+esc(t.country):''}<br>
-        ${t.lat!=null? coordStr(t) : '<span style="color:var(--red)">Noch nicht auf der Karte verortet</span>'}</div>
+    <div class="hero-cover" style="${coverStyle(t.status,.1)}">
+      <span class="hero-flag">${esc(t.flag||'📍')}</span>
+      <span class="badge ${t.status}">${STATUS_LABEL[t.status]}</span>
     </div>
+    <div class="hero-head">
+      <h2>${esc(t.titel)}</h2>
+      <div class="d-sub">${esc(t.display||t.ziel)}${t.country?' · '+esc(t.country):''} ·
+        ${t.lat!=null? coordStr(t) : '<span style="color:var(--red)">nicht verortet</span>'}</div>
+    </div>
+    ${pills.length?`<div class="pill-row">${pills.map(p=>`<span class="pill">${p}</span>`).join('')}</div>`:''}
+    ${routeSectionHtml(t)}
     <div class="d-grid">
       <div class="d-cell"><div class="k">Zeitraum</div><div class="v">${t.start?fmtD(t.start)+' – '+fmtD(t.ende):'offen'}</div></div>
       <div class="d-cell"><div class="k">Status</div><div class="v"><span class="badge ${t.status}">${STATUS_LABEL[t.status]}</span></div></div>
@@ -1778,13 +1945,13 @@ function renderDetailBody(t){
       </details>`:''}
     ${t.lat==null?`<button class="btn ghost" id="retryGeo">📍 Ort erneut suchen</button>`:''}
     ${vorbei?`<button class="btn ghost" id="markDone">🏁 Als abgeschlossen markieren</button>`:''}
-    ${routeSectionHtml(t)}
     ${t.notizen?`<div class="section-h">Notizen</div><div class="notes-box">${esc(t.notizen)}</div>`:''}
 
     <div class="section-h">Buchen &amp; Entdecken</div>
     <div class="link-grid">
       ${bookingLinks(t).map(([ic,label,url])=>`<a class="link-btn" href="${url}" target="_blank" rel="noopener"><span>${ic}</span>${esc(label)}</a>`).join('')}
       ${t.start?`<button class="link-btn" id="icsBtn"><span>📅</span>Im Kalender speichern</button>`:''}
+      ${(d!=null&&d>=0&&t.status!=='abgeschlossen')?`<button class="link-btn" id="cardBtn"><span>🖼️</span>Countdown-Bild teilen</button>`:''}
     </div>
     <div class="f-hint" style="margin-top:8px">Öffnet die Seiten mit Ziel, Datum und Personenzahl vorausgefüllt (soweit möglich).</div>
 
@@ -1837,6 +2004,13 @@ function renderDetailBody(t){
       <button class="icon-btn" id="checkAdd">＋</button>
     </div>
 
+    <div class="section-h">Tagebuch</div>
+    <div id="diaryBox">${renderDiary(t)}</div>
+    <div class="check-add">
+      <input id="diaryInput" placeholder="Was ist heute passiert?">
+      <button class="icon-btn" id="diaryAdd">＋</button>
+    </div>
+
     <div class="section-h">Ausgaben</div>
     <div id="spendBox">${renderSpend(t)}</div>
     <div class="check-add">
@@ -1870,6 +2044,8 @@ function renderDetailBody(t){
     const ok = downloadText(`${(t.display||t.ziel).replace(/[^\wäöüÄÖÜß-]+/g,'_')}.ics`, icsFor(t), 'text/calendar');
     toast(ok ? 'Kalenderdatei erstellt – öffnen, um den Termin zu speichern.' : 'Download hier nicht möglich – klappt in der installierten App.');
   });
+  const cb = $('#cardBtn');
+  if(cb) cb.addEventListener('click', ()=> shareCountdownCard(t, d));
   const md = $('#markDone');
   if(md) md.addEventListener('click', async ()=>{
     t.status='abgeschlossen'; await saveTrips();
@@ -1943,9 +2119,34 @@ function renderDetailBody(t){
   $('#checkAdd').addEventListener('click', ()=> addCheck(t));
   $('#checkInput').addEventListener('keydown', e=>{ if(e.key==='Enter') addCheck(t); });
   bindChecklist(t);
+  $('#diaryAdd').addEventListener('click', ()=> addDiary(t));
+  $('#diaryInput').addEventListener('keydown', e=>{ if(e.key==='Enter') addDiary(t); });
+  bindDiary(t);
   $('#spendAdd').addEventListener('click', ()=> addSpend(t));
   $('#spendVal').addEventListener('keydown', e=>{ if(e.key==='Enter') addSpend(t); });
   bindSpend(t);
+}
+
+function renderDiary(t){
+  return (t.tagebuch||[]).slice().reverse().map((e,ri)=>{
+    const i = t.tagebuch.length-1-ri;
+    return `<div class="check-item diary">
+      <div style="flex:1"><div class="dy-date">${fmtD(e.date)}</div><div class="dy-text">${esc(e.text)}</div></div>
+      <button class="x" data-x="${i}">✕</button>
+    </div>`;
+  }).join('') || '<div class="f-hint">Halte unterwegs Momente fest – mit Datum, ganz automatisch.</div>';
+}
+function bindDiary(t){
+  $('#diaryBox').querySelectorAll('.x').forEach(x=>x.addEventListener('click',async()=>{
+    t.tagebuch.splice(x.dataset.x,1); await saveTrips();
+    $('#diaryBox').innerHTML = renderDiary(t); bindDiary(t);
+  }));
+}
+async function addDiary(t){
+  const inp = $('#diaryInput'); const v = inp.value.trim(); if(!v) return;
+  (t.tagebuch = t.tagebuch||[]).push({date: new Date().toISOString().slice(0,10), text:v});
+  inp.value=''; await saveTrips();
+  $('#diaryBox').innerHTML = renderDiary(t); bindDiary(t);
 }
 
 function handleAiError(e){
@@ -1953,6 +2154,42 @@ function handleAiError(e){
     toast('Für KI-Funktionen bitte einen API-Key hinterlegen (⚙).');
     openData();
   } else toast('KI-Abruf fehlgeschlagen ('+((e&&e.message)||'Netzwerk')+') – bitte erneut versuchen.');
+}
+
+async function shareCountdownCard(t, d){
+  const css = getComputedStyle(document.documentElement);
+  const col = v => css.getPropertyValue(v).trim();
+  const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1350;
+  const x = cv.getContext('2d');
+  x.fillStyle = col('--bg'); x.fillRect(0,0,1080,1350);
+  // dezenter Punkt-Globus als Deko
+  x.fillStyle = col('--line');
+  for(let i=0;i<420;i++){
+    const a = Math.random()*Math.PI*2, r = 430*Math.sqrt(Math.random());
+    if(Math.random()<.5) x.fillRect(540+r*Math.cos(a), 980+r*Math.sin(a)*.55, 4, 4);
+  }
+  x.textAlign='center';
+  x.font = '170px serif'; x.fillText(t.flag||'🌍', 540, 300);
+  x.fillStyle = col('--text');
+  x.font = '600 76px system-ui'; x.fillText(t.titel.slice(0,22), 540, 440);
+  x.fillStyle = col('--muted2');
+  x.font = '38px system-ui'; x.fillText((t.display||t.ziel)+(t.country?' · '+t.country:''), 540, 505);
+  x.fillStyle = col('--amber');
+  x.font = '800 230px system-ui'; x.fillText(String(d), 540, 790);
+  x.font = '600 56px system-ui'; x.fillText(d===1?'TAG NOCH':'TAGE NOCH', 540, 870);
+  x.fillStyle = col('--muted2');
+  x.font = '36px monospace'; x.fillText(`${fmtD(t.start)} – ${fmtD(t.ende)}`, 540, 950);
+  x.fillStyle = col('--muted');
+  x.font = '30px system-ui'; x.fillText('geplant mit Fernweh 🌍', 540, 1290);
+  cv.toBlob(async blob=>{
+    if(!blob){ toast('Bild konnte nicht erstellt werden.'); return; }
+    const file = new File([blob], 'countdown.png', {type:'image/png'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file], title:t.titel}); return; }catch(e){}
+    }
+    const ok = downloadBlob('fernweh-countdown.png', blob);
+    toast(ok ? 'Countdown-Bild gespeichert!' : 'Teilen hier nicht möglich – klappt in der installierten App.');
+  }, 'image/png');
 }
 
 /* Programm */
@@ -2290,7 +2527,12 @@ $('#importBtn').addEventListener('click', async ()=>{
   rebuildPins();
   renderGlobeStats();
   renderList();
-  if(!storageOK) toast('Hinweis: Speicherung nicht verfügbar – Daten gelten nur für diese Sitzung.');
+  canPersist = await persistCheck();
+  if(!canPersist){
+    $('#persistBanner').style.display='flex';
+    $('#persistClose').addEventListener('click', ()=> $('#persistBanner').style.display='none');
+    $('#persistExport').addEventListener('click', ()=>{ show('list'); openData(); $('#exportBtn').click(); });
+  }
   setTimeout(()=>{ $('#globeHint').style.opacity = 0; }, 8000);
 })();
 
